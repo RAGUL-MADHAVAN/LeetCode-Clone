@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #1a1a1a;
+  color: #eff1f6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Code block styling */
+pre, code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Difficulty badge styles */
+.badge-easy {
+  @apply bg-lc-easy/20 text-lc-easy px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-medium {
+  @apply bg-lc-medium/20 text-lc-medium px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-hard {
+  @apply bg-lc-hard/20 text-lc-hard px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+/* Status badge styles */
+.status-accepted {
+  @apply text-lc-accepted font-medium;
+}
+
+.status-wrong {
+  @apply text-lc-wrong font-medium;
+}
+
+/* Glass card effect */
+.glass-card {
+  @apply bg-lc-bg-card/80 backdrop-blur-sm border border-lc-border/50 rounded-xl;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-lc-accent hover:bg-lc-accent-hover text-black font-semibold px-4 py-2 rounded-lg transition-smooth;
+}
+
+.btn-secondary {
+  @apply bg-lc-bg-hover hover:bg-lc-bg-input text-lc-text border border-lc-border px-4 py-2 rounded-lg transition-smooth;
+}
+
+.btn-success {
+  @apply bg-lc-accepted hover:bg-lc-accepted/80 text-white font-semibold px-4 py-2 rounded-lg transition-smooth;
+}
+
+/* Input styles */
+.input-field {
+  @apply w-full bg-lc-bg-input border border-lc-border rounded-lg px-4 py-2.5 text-lc-text placeholder-lc-text-secondary focus:outline-none focus:border-lc-accent focus:ring-1 focus:ring-lc-accent transition-smooth;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 161, 22, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(255, 161, 22, 0.1); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}

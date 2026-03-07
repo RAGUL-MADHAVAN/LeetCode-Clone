@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  # ───────────────────────────────────────
+  # MongoDB Database
+  # ───────────────────────────────────────
+  mongodb:
+    image: mongo:7
+    container_name: leetcode-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Backend API (Express.js)
+  # ───────────────────────────────────────
+  backend:
+    build: ./backend
+    container_name: leetcode-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/leetcode-clone
+      - JWT_SECRET=leetcode_clone_jwt_secret_dev_key_2024
+      - JUDGE0_URL=http://judge0-server:2358
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Frontend (Vite + React)
+  # ───────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: leetcode-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:5000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Judge0 Server
+  # ───────────────────────────────────────
+  judge0-server:
+    image: judge0/judge0:latest
+    container_name: leetcode-judge0
+    ports:
+      - "2358:2358"
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    environment:
+      - REDIS_HOST=judge0-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=judge0redispass
+      - POSTGRES_HOST=judge0-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=judge0dbpass
+      - RAILS_MAX_THREADS=4
+      - RAILS_ENV=production
+      - ALLOW_ORIGIN=*
+    depends_on:
+      - judge0-db
+      - judge0-redis
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Judge0 Workers
+  # ───────────────────────────────────────
+  judge0-workers:
+    image: judge0/judge0:latest
+    container_name: leetcode-judge0-workers
+    command: [ "./scripts/workers" ]
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    environment:
+      - REDIS_HOST=judge0-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=judge0redispass
+      - POSTGRES_HOST=judge0-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=judge0dbpass
+      - RAILS_MAX_THREADS=4
+      - RAILS_ENV=production
+    depends_on:
+      - judge0-server
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Judge0 PostgreSQL
+  # ───────────────────────────────────────
+  judge0-db:
+    image: postgres:16
+    container_name: leetcode-judge0-db
+    environment:
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=judge0dbpass
+    volumes:
+      - judge0_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Judge0 Redis
+  # ───────────────────────────────────────
+  judge0-redis:
+    image: redis:7
+    container_name: leetcode-judge0-redis
+    command: [ "redis-server", "--requirepass", "judge0redispass" ]
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+  judge0_postgres_data:

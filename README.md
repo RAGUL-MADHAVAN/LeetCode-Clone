@@ -70,21 +70,11 @@ Visit `http://localhost:5173`
 ---
 
 ## Docker Setup (Full Stack)
-
-Run everything with a single command:
-
-```bash
-docker-compose up --build
-```
-
-This starts:
-
-| Service         | Port  | Description              |
-| --------------- | ----- | ------------------------ |
-| Frontend        | 5173  | Vite React dev server    |
-| Backend         | 5000  | Express API              |
-| MongoDB         | 27017 | Database                 |
-| Judge0 Server   | 2358  | Code execution API       |
+Pull languages Docker images:
+docker pull gcc
+docker pull python
+docker pull eclipse-temurin:17-jdk
+docker pull node
 
 ### Seed problems in Docker:
 
@@ -105,7 +95,8 @@ leetcode-clone/
 │   ├── models/          # Mongoose schemas
 │   ├── routes/          # API routes
 │   ├── seed/            # Sample problems
-│   ├── services/        # Judge0 integration
+│   ├── services/        # Code runned by docker
+│   ├── temp/            # folder to save code file temporarily
 │   ├── server.js        # Entry point
 │   └── Dockerfile
 ├── frontend/
@@ -168,4 +159,3 @@ See `.env.example` for all configuration options.
 | PORT         | 5000                                       | Backend port       |
 | MONGO_URI    | mongodb://localhost:27017/leetcode-clone    | MongoDB connection |
 | JWT_SECRET   | (change in production)                     | JWT signing key    |
-| JUDGE0_URL   | http://localhost:2358                       | Judge0 API URL     |

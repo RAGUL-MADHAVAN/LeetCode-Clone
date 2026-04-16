@@ -15,8 +15,8 @@ export default function CodeEditor({
     isRunning,
     isSubmitting,
 }) {
-    const [language, setLanguage] = useState('cpp');
-    const [code, setCode] = useState(starterCode['cpp'] || '');
+    const [language, setLanguage] = useState('javascript');
+    const [code, setCode] = useState(starterCode['javascript'] || '');
     const [input, setInput] = useState('');
     const [activeTab, setActiveTab] = useState('input');
 
@@ -88,7 +88,7 @@ export default function CodeEditor({
             <div className="flex-1 min-h-0">
                 <Editor
                     height="100%"
-                    language={selectedLangOption?.monacoId || 'cpp'}
+                    language={selectedLangOption?.monacoId || 'javascript'}
                     value={code}
                     onChange={(value) => setCode(value || '')}
                     theme="vs-dark"

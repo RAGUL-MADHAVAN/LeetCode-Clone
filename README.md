@@ -70,11 +70,11 @@ Visit `http://localhost:5173`
 ---
 
 ## Docker Setup (Full Stack)
-Pull languages Docker images:
+```Pull languages Docker images:
 docker pull gcc
 docker pull python
 docker pull eclipse-temurin:17-jdk
-docker pull node
+docker pull node```
 
 ### Seed problems in Docker:
 

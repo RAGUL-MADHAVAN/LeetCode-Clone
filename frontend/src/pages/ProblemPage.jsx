@@ -42,9 +42,10 @@ export default function ProblemPage() {
         setResultType('run');
         try {
             const res = await api.post('/code/run', {
+                problemId: id,
                 source_code: code,
                 language,
-                input: input || problem.sampleInput,
+                input: input || (problem.sampleTestCases?.[0]?.input || ''),
             });
             setRunResult(res.data);
         } catch (err) {
@@ -142,43 +143,37 @@ export default function ProblemPage() {
                         </div>
                     </div>
 
-                    {/* Constraints */}
-                    {problem.constraints && (
+                    {/* Sample Test Cases */}
+                    {problem.sampleTestCases && problem.sampleTestCases.length > 0 && (
                         <div className="mb-6">
                             <h3 className="text-sm font-semibold text-lc-text mb-2">
-                                Constraints
+                                Sample Test Cases
                             </h3>
-                            <div className="bg-lc-bg-card rounded-lg p-4 border border-lc-border">
-                                <pre className="text-xs text-lc-text-secondary font-mono whitespace-pre-wrap">
-                                    {problem.constraints}
-                                </pre>
-                            </div>
+                            {problem.sampleTestCases.map((tc, idx) => (
+                                <div key={idx} className="mb-4">
+                                    <div className="bg-lc-bg-card rounded-lg border border-lc-border overflow-hidden">
+                                        <div className="bg-lc-bg px-4 py-2 border-b border-lc-border text-xs font-semibold text-lc-text-secondary">
+                                            Test Case {idx + 1}
+                                        </div>
+                                        <div className="p-4 grid grid-cols-1 gap-4">
+                                            <div>
+                                                <h4 className="text-xs font-semibold text-lc-text mb-1">Input:</h4>
+                                                <pre className="text-xs text-lc-text font-mono whitespace-pre-wrap">
+                                                    {tc.input}
+                                                </pre>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xs font-semibold text-lc-text mb-1">Output:</h4>
+                                                <pre className="text-xs text-lc-text font-mono whitespace-pre-wrap">
+                                                    {tc.output}
+                                                </pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     )}
-
-                    {/* Sample I/O */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                        {problem.sampleInput && (
-                            <div>
-                                <h3 className="text-sm font-semibold text-lc-text mb-2">
-                                    Sample Input
-                                </h3>
-                                <pre className="bg-lc-bg-card rounded-lg p-4 border border-lc-border text-xs text-lc-text font-mono whitespace-pre-wrap">
-                                    {problem.sampleInput}
-                                </pre>
-                            </div>
-                        )}
-                        {problem.sampleOutput && (
-                            <div>
-                                <h3 className="text-sm font-semibold text-lc-text mb-2">
-                                    Sample Output
-                                </h3>
-                                <pre className="bg-lc-bg-card rounded-lg p-4 border border-lc-border text-xs text-lc-text font-mono whitespace-pre-wrap">
-                                    {problem.sampleOutput}
-                                </pre>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
 
@@ -187,7 +182,7 @@ export default function ProblemPage() {
                 {/* Editor section */}
                 <div className="flex-1 min-h-0">
                     <CodeEditor
-                        starterCode={problem.starterCode || {}}
+                        starterCode={problem.functionSignatures || {}}
                         onRun={handleRun}
                         onSubmit={handleSubmit}
                         isRunning={isRunning}

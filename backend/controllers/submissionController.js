@@ -1,6 +1,7 @@
 const Submission = require("../models/Submission");
 const Problem = require("../models/Problem");
 const User = require("../models/User");
+const DriverTemplate = require("../models/DriverTemplate");
 const { runCode } = require("../services/dockerRunner");
 
 // POST /api/submissions
@@ -20,11 +21,21 @@ const storeSubmission = async (req, res) => {
     let lastTime = "0";
     let lastMemory = "0";
 
+    let executionCode = code;
+    if (problem.driverTemplate) {
+      const template = await DriverTemplate.findOne({ name: problem.driverTemplate });
+      if (template && template.languages[language]) {
+        executionCode = template.languages[language]
+          .replace('USER_CODE', code)
+          .replace(/FUNC/g, problem.functionName);
+      }
+    }
+
     const results = [];
 
     // Run code for each test case
     for (const testCase of problem.testCases) {
-      const result = await runCode(code, language, testCase.input);
+      const result = await runCode(executionCode, language, testCase.input);
 
       const stdout = (result.stdout || "").trim();
       const expected = (testCase.expectedOutput || "").trim();

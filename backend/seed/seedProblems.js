@@ -7,310 +7,304 @@ dotenv.config({ path: path.join(__dirname, '..', '.env') });
 const Problem = require('../models/Problem');
 
 const problems = [
-    {
-        title: 'Two Sum',
-        description:
-            'Given an array of integers `nums` and an integer `target`, return the indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nReturn the answer as two space-separated indices (0-indexed).',
-        difficulty: 'easy',
-        constraints:
-            '2 <= nums.length <= 10^4\n-10^9 <= nums[i] <= 10^9\n-10^9 <= target <= 10^9\nOnly one valid answer exists.',
-        sampleInput: '4\n2 7 11 15\n9',
-        sampleOutput: '0 1',
-        testCases: [
-            { input: '4\n2 7 11 15\n9', expectedOutput: '0 1' },
-            { input: '3\n3 2 4\n6', expectedOutput: '1 2' },
-            { input: '2\n3 3\n6', expectedOutput: '0 1' },
-        ],
-        tags: ['array', 'hash-table'],
-        starterCode: {
-            cpp: `#include <iostream>
-#include <vector>
-using namespace std;
 
-int main() {
-    int n;
-    cin >> n;
-    vector<int> nums(n);
-    for (int i = 0; i < n; i++) cin >> nums[i];
-    int target;
-    cin >> target;
+/* =========================
+   1. TWO SUM
+========================= */
+{
+title: "Two Sum",
+description: "Given an array of integers, return indices of two numbers such that they add up to target.",
+difficulty: "easy",
+functionName: "twoSum",
+driverTemplate: "array-int",
+tags: ["array","hashmap"],
 
-    // Your code here
+functionSignatures: {
+javascript: `function twoSum(nums, target) {
+    // Write your code here
+};`,
 
-    return 0;
-}`,
-            python: `n = int(input())
-nums = list(map(int, input().split()))
-target = int(input())
+python: `def twoSum(nums, target):
+    # Write your code here
+    pass`,
 
-# Your code here
-`,
-            java: `import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
-        int target = sc.nextInt();
-
-        // Your code here
-
+java: `class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // Write your code here
+        return new int[]{};
     }
 }`,
-            javascript: `const readline = require('readline');
-const rl = readline.createInterface({ input: process.stdin });
-const lines = [];
-rl.on('line', (line) => lines.push(line));
-rl.on('close', () => {
-    const n = parseInt(lines[0]);
-    const nums = lines[1].split(' ').map(Number);
-    const target = parseInt(lines[2]);
 
-    // Your code here
+cpp: `int* twoSum(int* nums, int n, int target) {
+    // Write your code here
+}`
+},
 
-});`,
-        },
-    },
-    {
-        title: 'FizzBuzz',
-        description:
-            'Given an integer `n`, print numbers from 1 to `n`. But for multiples of 3 print "Fizz", for multiples of 5 print "Buzz", and for multiples of both 3 and 5 print "FizzBuzz".\n\nPrint each result on a new line.',
-        difficulty: 'easy',
-        constraints: '1 <= n <= 10^4',
-        sampleInput: '5',
-        sampleOutput: '1\n2\nFizz\n4\nBuzz',
-        testCases: [
-            { input: '5', expectedOutput: '1\n2\nFizz\n4\nBuzz' },
-            {
-                input: '15',
-                expectedOutput:
-                    '1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz',
-            },
-            { input: '3', expectedOutput: '1\n2\nFizz' },
-        ],
-        tags: ['math', 'string'],
-        starterCode: {
-            cpp: `#include <iostream>
-using namespace std;
+sampleTestCases: [
+{ input: "4\n2 7 11 15\n9", output: "0 1" },
+{ input: "3\n3 2 4\n6", output: "1 2" }
+],
 
-int main() {
-    int n;
-    cin >> n;
+testCases: [
+{ input:"2\n3 3\n6", expectedOutput:"0 1", isHidden:true },
+{ input:"5\n1 2 3 4 5\n9", expectedOutput:"3 4", isHidden:true },
+{ input:"4\n0 4 3 0\n0", expectedOutput:"0 3", isHidden:true },
+{ input:"6\n-1 -2 -3 -4 -5 -6\n-8", expectedOutput:"2 4", isHidden:true },
+{ input:"3\n1 5 1\n2", expectedOutput:"0 2", isHidden:true },
+{ input:"4\n2 5 5 11\n10", expectedOutput:"1 2", isHidden:true },
+{ input:"5\n10 20 30 40 50\n90", expectedOutput:"3 4", isHidden:true },
+{ input:"4\n1 3 4 2\n6", expectedOutput:"2 3", isHidden:true },
+{ input:"3\n2 7 11\n9", expectedOutput:"0 1", isHidden:true },
+{ input:"4\n5 75 25 10\n100", expectedOutput:"1 2", isHidden:true }
+]
+},
 
-    // Your code here
+/* =========================
+   2. ADD TWO NUMBERS
+========================= */
+{
+title: "Add Two Numbers",
+description: "Add two numbers represented by linked lists.",
+difficulty: "medium",
+functionName: "addTwoNumbers",
+driverTemplate: "linked-list",
+tags: ["linked-list"],
 
-    return 0;
-}`,
-            python: `n = int(input())
+functionSignatures: {
+javascript: `function addTwoNumbers(l1, l2) {
+    // Write your code here
+};`,
 
-# Your code here
-`,
-            java: `import java.util.*;
+python: `def addTwoNumbers(l1, l2):
+    # Write your code here
+    pass`,
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
+java: `/* 
+ListNode format
 
-        // Your code here
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x){ val = x; }
+}*/
 
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // Write your code here
+        return null;
     }
 }`,
-            javascript: `const readline = require('readline');
-const rl = readline.createInterface({ input: process.stdin });
-rl.on('line', (line) => {
-    const n = parseInt(line);
 
-    // Your code here
+cpp: `/* ListNode format
 
-});`,
-        },
-    },
-    {
-        title: 'Palindrome Check',
-        description:
-            'Given a string `s`, determine if it is a palindrome. A palindrome reads the same forward and backward.\n\nConsider only alphanumeric characters and ignore cases.\n\nPrint "true" if the string is a palindrome, otherwise print "false".',
-        difficulty: 'easy',
-        constraints:
-            '1 <= s.length <= 2 * 10^5\ns consists only of printable ASCII characters.',
-        sampleInput: 'A man, a plan, a canal: Panama',
-        sampleOutput: 'true',
-        testCases: [
-            {
-                input: 'A man, a plan, a canal: Panama',
-                expectedOutput: 'true',
-            },
-            { input: 'race a car', expectedOutput: 'false' },
-            { input: ' ', expectedOutput: 'true' },
-        ],
-        tags: ['string', 'two-pointers'],
-        starterCode: {
-            cpp: `#include <iostream>
-#include <string>
-using namespace std;
+struct ListNode {
+    int val;
+    struct ListNode* next;
+};
+createNode is already defined
+struct ListNode* createNode(int val){
+    struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+    node->val = val;
+    node->next = NULL;
+    return node;
+}
+*/
 
-int main() {
-    string s;
-    getline(cin, s);
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    // Write your code here
+}`
+},
 
-    // Your code here
+sampleTestCases: [
+{ input:"3\n2 4 3\n3\n5 6 4", output:"7 0 8" },
+{ input:"1\n0\n1\n0", output:"0" }
+],
 
-    return 0;
-}`,
-            python: `s = input()
+testCases: [
+{ input:"1\n9\n1\n1", expectedOutput:"0 1", isHidden:true },
+{ input:"2\n9 9\n1\n1", expectedOutput:"0 0 1", isHidden:true },
+{ input:"3\n1 8 3\n3\n7 1 6", expectedOutput:"8 9 9", isHidden:true },
+{ input:"1\n5\n1\n5", expectedOutput:"0 1", isHidden:true },
+{ input:"2\n0 1\n2\n0 1", expectedOutput:"0 2", isHidden:true },
+{ input:"3\n2 4 9\n3\n5 6 4", expectedOutput:"7 0 4 1", isHidden:true },
+{ input:"1\n1\n3\n9 9 9", expectedOutput:"0 0 0 1", isHidden:true },
+{ input:"2\n5 6\n2\n5 4", expectedOutput:"0 1 1", isHidden:true },
+{ input:"1\n0\n1\n7", expectedOutput:"7", isHidden:true },
+{ input:"3\n9 9 9\n3\n9 9 9", expectedOutput:"8 9 9 1", isHidden:true }
+]
+},
 
-# Your code here
-`,
-            java: `import java.util.*;
+/* =========================
+   3. LONGEST SUBSTRING
+========================= */
+{
+title: "Longest Substring Without Repeating Characters",
+description: "Find length of longest substring without repeating characters.",
+difficulty: "medium",
+functionName: "lengthOfLongestSubstring",
+driverTemplate: "string",
+tags: ["string"],
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
+functionSignatures: {
+javascript: `function lengthOfLongestSubstring(s) {
+    // Write your code here
+};`,
 
-        // Your code here
+python: `def lengthOfLongestSubstring(s):
+    # Write your code here
+    pass`,
 
+java: `class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        // Write your code here
+        return 0;
     }
 }`,
-            javascript: `const readline = require('readline');
-const rl = readline.createInterface({ input: process.stdin });
-rl.on('line', (line) => {
 
-    // Your code here
+cpp: `int lengthOfLongestSubstring(char* s) {
+    // Write your code here
+}`
+},
 
-});`,
-        },
-    },
-    {
-        title: 'Reverse Linked List',
-        description:
-            'Given a space-separated list of integers representing a linked list, reverse the list and print the elements space-separated.\n\nIf the list is empty, print nothing.',
-        difficulty: 'medium',
-        constraints:
-            'The number of nodes in the list is in the range [0, 5000].\n-5000 <= Node.val <= 5000',
-        sampleInput: '1 2 3 4 5',
-        sampleOutput: '5 4 3 2 1',
-        testCases: [
-            { input: '1 2 3 4 5', expectedOutput: '5 4 3 2 1' },
-            { input: '1 2', expectedOutput: '2 1' },
-            { input: '1', expectedOutput: '1' },
-        ],
-        tags: ['linked-list', 'recursion'],
-        starterCode: {
-            cpp: `#include <iostream>
-#include <vector>
-#include <sstream>
-using namespace std;
+sampleTestCases: [
+{ input:"abcabcbb", output:"3" },
+{ input:"bbbbb", output:"1" }
+],
 
-int main() {
-    string line;
-    getline(cin, line);
+testCases: [
+{ input:"pwwkew", expectedOutput:"3", isHidden:true },
+{ input:"", expectedOutput:"0", isHidden:true },
+{ input:"abcdef", expectedOutput:"6", isHidden:true },
+{ input:"abba", expectedOutput:"2", isHidden:true },
+{ input:"dvdf", expectedOutput:"3", isHidden:true },
+{ input:"anviaj", expectedOutput:"5", isHidden:true },
+{ input:"tmmzuxt", expectedOutput:"5", isHidden:true },
+{ input:"aab", expectedOutput:"2", isHidden:true },
+{ input:"abcdeafgh", expectedOutput:"8", isHidden:true },
+{ input:"bbbbba", expectedOutput:"2", isHidden:true }
+]
+},
 
-    // Your code here
+/* =========================
+   4. MEDIAN
+========================= */
+{
+title: "Median of Two Sorted Arrays",
+description: "Find median of two sorted arrays.",
+difficulty: "hard",
+functionName: "findMedianSortedArrays",
+driverTemplate: "two-arrays",
+tags: ["binary-search"],
 
-    return 0;
-}`,
-            python: `line = input()
+functionSignatures: {
+javascript: `function findMedianSortedArrays(a, b) {
+    // Write your code here
+};`,
 
-# Your code here
-`,
-            java: `import java.util.*;
+python: `def findMedianSortedArrays(a, b):
+    # Write your code here
+    pass`,
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-
-        // Your code here
-
+java: `class Solution {
+    public double findMedianSortedArrays(int[] a, int[] b) {
+        // Write your code here
+        return 0.0;
     }
 }`,
-            javascript: `const readline = require('readline');
-const rl = readline.createInterface({ input: process.stdin });
-rl.on('line', (line) => {
 
-    // Your code here
+cpp: `double findMedianSortedArrays(vector<int>& a, int n, vector<int>& b, int m) {
+    // Write your code here
+}`
+},
 
-});`,
-        },
-    },
-    {
-        title: 'Valid Parentheses',
-        description:
-            'Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid.\n\nAn input string is valid if:\n1. Open brackets must be closed by the same type of brackets.\n2. Open brackets must be closed in the correct order.\n3. Every close bracket has a corresponding open bracket of the same type.\n\nPrint "true" if valid, otherwise "false".',
-        difficulty: 'medium',
-        constraints: '1 <= s.length <= 10^4\ns consists of parentheses only.',
-        sampleInput: '()',
-        sampleOutput: 'true',
-        testCases: [
-            { input: '()', expectedOutput: 'true' },
-            { input: '()[]{}', expectedOutput: 'true' },
-            { input: '(]', expectedOutput: 'false' },
-            { input: '([)]', expectedOutput: 'false' },
-            { input: '{[]}', expectedOutput: 'true' },
-        ],
-        tags: ['stack', 'string'],
-        starterCode: {
-            cpp: `#include <iostream>
-#include <stack>
-#include <string>
-using namespace std;
+sampleTestCases: [
+{ input:"2\n1 3\n1\n2", output:"2.000000" },
+{ input:"2\n1 2\n2\n3 4", output:"2.500000" }
+],
 
-int main() {
-    string s;
-    cin >> s;
+testCases: [
+{ input:"1\n1\n1\n2", expectedOutput:"1.500000", isHidden:true },
+{ input:"2\n1 3\n2\n2 4", expectedOutput:"2.500000", isHidden:true },
+{ input:"3\n1 2 3\n3\n4 5 6", expectedOutput:"3.500000", isHidden:true },
+{ input:"1\n0\n1\n0", expectedOutput:"0.000000", isHidden:true },
+{ input:"2\n2 2\n2\n2 2", expectedOutput:"2.000000", isHidden:true },
+{ input:"3\n1 3 5\n2\n2 4", expectedOutput:"3.000000", isHidden:true },
+{ input:"2\n1 2\n3\n3 4 5", expectedOutput:"3.000000", isHidden:true },
+{ input:"4\n1 2 3 4\n4\n5 6 7 8", expectedOutput:"4.500000", isHidden:true },
+{ input:"1\n100\n1\n200", expectedOutput:"150.000000", isHidden:true },
+{ input:"2\n-5 -3\n2\n-2 -1", expectedOutput:"-2.500000", isHidden:true }
+]
+},
 
-    // Your code here
+/* =========================
+   5. LONGEST PALINDROME
+========================= */
+{
+title: "Longest Palindromic Substring",
+description: "Find longest palindromic substring.",
+difficulty: "medium",
+functionName: "longestPalindrome",
+driverTemplate: "inStringOpString",
+tags: ["dp"],
 
-    return 0;
-}`,
-            python: `s = input()
+functionSignatures: {
+javascript: `function longestPalindrome(s) {
+    // Write your code here
+};`,
 
-# Your code here
-`,
-            java: `import java.util.*;
+python: `def longestPalindrome(s):
+    # Write your code here
+    pass`,
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-
-        // Your code here
-
+java: `class Solution {
+    public String longestPalindrome(String s) {
+        // Write your code here
+        return "";
     }
 }`,
-            javascript: `const readline = require('readline');
-const rl = readline.createInterface({ input: process.stdin });
-rl.on('line', (line) => {
 
-    // Your code here
+cpp: `char* longestPalindrome(char* s) {
+    // Write your code here
+}`
+},
 
-});`,
-        },
-    },
+sampleTestCases: [
+{ input:"babad", output:"bab" },
+{ input:"cbbd", output:"bb" }
+],
+
+testCases: [
+{ input:"a", expectedOutput:"a", isHidden:true },
+{ input:"ac", expectedOutput:"a", isHidden:true },
+{ input:"racecar", expectedOutput:"racecar", isHidden:true },
+{ input:"abba", expectedOutput:"abba", isHidden:true },
+{ input:"abcda", expectedOutput:"a", isHidden:true },
+{ input:"forgeeksskeegfor", expectedOutput:"geeksskeeg", isHidden:true },
+{ input:"abccba", expectedOutput:"abccba", isHidden:true },
+{ input:"banana", expectedOutput:"anana", isHidden:true },
+{ input:"abcd", expectedOutput:"a", isHidden:true },
+{ input:"aaaabaaa", expectedOutput:"aaabaaa", isHidden:true }
+]
+}
+
 ];
 
-const seedDB = async () => {
+async function seedDB() {
     try {
-        const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/leetcode-clone';
-        await mongoose.connect(mongoUri);
-        console.log('Connected to MongoDB');
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("DB Connected");
 
-        await Problem.deleteMany({});
-        console.log('Cleared existing problems');
+        await Problem.deleteMany();
+        console.log("Old problems removed");
 
         await Problem.insertMany(problems);
-        console.log(`Seeded ${problems.length} problems successfully`);
+        console.log("Problems inserted successfully");
 
-        await mongoose.connection.close();
-        console.log('Database connection closed');
-        process.exit(0);
-    } catch (error) {
-        console.error('Seed error:', error.message);
+        process.exit();
+    } catch (err) {
+        console.error(err);
         process.exit(1);
     }
-};
+}
 
 seedDB();

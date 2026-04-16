@@ -16,31 +16,34 @@ const problemSchema = new mongoose.Schema(
             enum: ['easy', 'medium', 'hard'],
             required: [true, 'Difficulty is required'],
         },
-        constraints: {
+        functionName: {
             type: String,
             default: '',
         },
-        sampleInput: {
+        driverTemplate: {
             type: String,
             default: '',
         },
-        sampleOutput: {
-            type: String,
-            default: '',
+        tags: [String],
+        functionSignatures: {
+            javascript: { type: String, default: '' },
+            python: { type: String, default: '' },
+            java: { type: String, default: '' },
+            cpp: { type: String, default: '' },
         },
+        sampleTestCases: [
+            {
+                input: { type: String, default: '' },
+                output: { type: String, default: '' },
+            },
+        ],
         testCases: [
             {
                 input: { type: String, default: '' },
                 expectedOutput: { type: String, default: '' },
+                isHidden: { type: Boolean, default: false },
             },
         ],
-        tags: [String],
-        starterCode: {
-            cpp: { type: String, default: '' },
-            python: { type: String, default: '' },
-            java: { type: String, default: '' },
-            javascript: { type: String, default: '' },
-        },
     },
     { timestamps: true }
 );

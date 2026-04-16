@@ -25,9 +25,19 @@ const runCode = (code, language, input) => {
       runCmd = "python main.py";
       image = "python";
     } else if (language === "java") {
-      filename = "Main.java";
-      compileCmd = "javac Main.java";
-      runCmd = "java Main";
+      // Extract class name from Java code
+      // Prioritize 'class Main' since driver templates use it
+      let className = "Main";
+      const mainClassMatch = code.match(/class\s+Main\b/);
+      if (mainClassMatch) {
+        className = "Main";
+      } else {
+        const classMatch = code.match(/class\s+(\w+)/);
+        className = classMatch ? classMatch[1] : "Main";
+      }
+      filename = `${className}.java`;
+      compileCmd = `javac ${className}.java`;
+      runCmd = `java ${className}`;
       image = "eclipse-temurin:17-jdk";
     } else if (language === "javascript") {
       filename = "main.js";
@@ -40,6 +50,13 @@ const runCode = (code, language, input) => {
 
     // Replace backslashes in Windows paths for Docker
     const dockerTempDir = tempDir.replace(/\\/g, "/");
+
+    // Debug logging
+    console.log(`[DockerRunner] Language: ${language}`);
+    console.log(`[DockerRunner] Filename: ${filename}`);
+    if (language === "java") {
+      console.log(`[DockerRunner] Java class name: ${filename.replace('.java', '')}`);
+    }
 
     let dockerCommand = "";
 
@@ -58,25 +75,39 @@ const runCode = (code, language, input) => {
     }
 
     exec(dockerCommand, (error, stdout, stderr) => {
+      let status = { id: 3, description: "Accepted" };
+      let outputStderr = stderr;
+
       if (error) {
-        resolve({
-          stdout: "",
-          stderr: stderr,
-          status: { id: 11, description: "Runtime Error" },
-          time: "0",
-          memory: "0",
-        });
-      } else {
-        resolve({
-          stdout,
-          stderr: "",
-          status: { id: 3, description: "Accepted" },
-          time: "0",
-          memory: "0",
-        });
+        // Distinguish between compilation error and runtime error
+        if (language === "java" && (stderr.includes(".java:") || stderr.includes("error:") || stderr.includes("cannot find symbol"))) {
+          status = { id: 12, description: "Compilation Error" };
+        } else if (language === "cpp" && (stderr.includes("error:") || stderr.includes("undefined reference"))) {
+          status = { id: 12, description: "Compilation Error" };
+        } else {
+          status = { id: 11, description: "Runtime Error" };
+        }
+        console.log(`[DockerRunner] Error: ${status.description}`);
+        console.log(`[DockerRunner] Stderr: ${stderr}`);
       }
 
-      fs.rmSync(tempDir, { recursive: true, force: true });
+      console.log(`[DockerRunner] Status: ${status.description}`);
+
+      resolve({
+        stdout: stdout || "",
+        stderr: outputStderr || "",
+        status: status,
+        time: "0",
+        memory: "0",
+      });
+
+      setTimeout(() => {
+        try {
+          fs.rmSync(tempDir, { recursive: true, force: true });
+        } catch (err) {
+          console.log("[Cleanup Error]", err.message);
+        }
+      }, 500);
     });
   });
 };

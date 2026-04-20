@@ -1,16 +1,16 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE_BACKEND = 'leetcode-clone-backend'
-        DOCKER_IMAGE_FRONTEND = 'leetcode-clone-frontend'
-        COMPOSE_PROJECT_NAME = 'codearena_cloned'
+    triggers {
+        githubPush()
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                url: 'https://github.com/RAGUL-MADHAVAN/LeetCode-Clone.git'
             }
         }
 
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     sleep 30
-                    sh 'curl -f http://localhost:5000/health || exit 1'
+                    sh 'curl -f http://localhost:5000 || exit 1'
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
             echo 'Deployment successful!'
         }
         failure {
-            echo 'Deployment failed. Check logs for details.'
+            echo 'Deployment failed. Check logs.'
         }
         always {
             sh 'docker compose ps'

@@ -6,7 +6,6 @@ services:
   # ───────────────────────────────────────
   mongodb:
     image: mongo:7
-    container_name: leetcode-mongodb
     ports:
       - "27017:27017"
     volumes:
@@ -18,7 +17,6 @@ services:
   # ───────────────────────────────────────
   backend:
     build: ./backend
-    container_name: leetcode-backend
     ports:
       - "5000:5000"
     volumes:
@@ -39,7 +37,6 @@ services:
   # ───────────────────────────────────────
   frontend:
     build: ./frontend
-    container_name: leetcode-frontend
     ports:
       - "5173:5173"
     environment:
@@ -53,7 +50,6 @@ services:
   # ───────────────────────────────────────
   judge0-server:
     image: judge0/judge0:latest
-    container_name: leetcode-judge0
     ports:
       - "2358:2358"
     privileged: true
@@ -74,7 +70,6 @@ services:
 
   judge0-workers:
     image: judge0/judge0:latest
-    container_name: leetcode-judge0-workers
     command: ["./scripts/workers"]
     privileged: true
     environment:
@@ -96,7 +91,6 @@ services:
   # ───────────────────────────────────────
   judge0-db:
     image: postgres:16
-    container_name: leetcode-judge0-db
     environment:
       - POSTGRES_DB=judge0
       - POSTGRES_USER=judge0
@@ -110,8 +104,31 @@ services:
   # ───────────────────────────────────────
   judge0-redis:
     image: redis:7
-    container_name: leetcode-judge0-redis
     command: ["redis-server", "--requirepass", "judge0redispass"]
+    restart: unless-stopped
+
+  # ───────────────────────────────────────
+  # Monitoring (Prometheus + Grafana)
+  # ───────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
     restart: unless-stopped
 
 volumes:

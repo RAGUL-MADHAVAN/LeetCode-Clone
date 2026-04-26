@@ -96,7 +96,6 @@ const runBatch = (code, language, inputs = []) => {
     const totalCases = normalizedInputs.length;
     const script = `#!/usr/bin/env bash\n` +
       `set +e\n` +
-      `cd /app\n` +
       (compileCmd
         ? `(${compileCmd}) > compile_stdout.txt 2> compile_stderr.txt\n` +
           `echo $? > compile_exit.txt\n` +
@@ -109,23 +108,15 @@ const runBatch = (code, language, inputs = []) => {
 
     fs.writeFileSync(path.join(tempDir, "run.sh"), script);
 
-    const hostTempBase = process.env.HOST_TEMP_DIR;
-    const dockerTempDir = (hostTempBase
-      ? path.join(hostTempBase, id)
-      : tempDir
-    ).replace(/\\/g, "/");
-
-    console.log(`[DockerRunner] Language: ${language}`);
-    console.log(`[DockerRunner] Filename: ${filename}`);
-
-    const dockerCommand =
-      `docker run --rm --memory=128m --cpus=0.5 --network=none ` +
-      `-v "${dockerTempDir}:/app" -w /app ${image} bash run.sh`;
+    console.log(`[LocalRunner] Language: ${language}`);
+    console.log(`[LocalRunner] Filename: ${filename}`);
+    console.log(`[LocalRunner] Temp Directory: ${tempDir}`);
 
     exec(
-      dockerCommand,
+      'bash run.sh',
       {
-        timeout: 180000,
+        cwd: tempDir,
+        timeout: 10000,
         maxBuffer: 5 * 1024 * 1024,
       },
       (error, dockerStdout, dockerStderr) => {

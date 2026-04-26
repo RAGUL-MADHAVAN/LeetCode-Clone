@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     sleep 30
-                    sh 'curl -f http://localhost:5000 || exit 1'
+                    sh 'docker run --rm --network leetcode_default curlimages/curl -sS -f http://backend:5000 || exit 1'
                 }
             }
         }

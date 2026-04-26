@@ -111,13 +111,11 @@ services:
   # Monitoring (Prometheus + Grafana)
   # ───────────────────────────────────────
   prometheus:
-    image: prom/prometheus:latest
+    build: ./monitoring
+    image: custom-prometheus
+    container_name: prometheus
     ports:
       - "9090:9090"
-    volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    depends_on:
-      - backend
     restart: unless-stopped
 
   grafana:

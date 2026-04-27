@@ -32,13 +32,13 @@ export default function Navbar() {
                                     to="/problems"
                                     className="text-lc-text-secondary hover:text-lc-text text-sm font-medium transition-smooth"
                                 >
-                                    Problems
+                                    Profile
                                 </Link>
                                 <Link
                                     to="/profile"
                                     className="text-lc-text-secondary hover:text-lc-text text-sm font-medium transition-smooth"
                                 >
-                                    Profile
+                                    Problems
                                 </Link>
                                 <Link
                                     to="/submissions"
